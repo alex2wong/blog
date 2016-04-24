@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>capsule tags devide by hyx</title>
+</head>
+<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+		line-height: 1.8;
+		font-size: 1.5;
+	}
+	#tags,#interests{
+		margin-top:20px;
+	}
+
+	span{
+		/*background-color: #ccc;*/
+		margin:10px;
+		padding:10px;
+		border: 1px solid lightgrey;
+	}
+	span i{
+		/*background-color: #ccc;*/
+		padding:10px;
+	}
+	span:hover{
+		background-color: lightblue;
+		
+	}
+
+</style>
+<body>
+	<div>
+		Tag: <input type="text" id="inputtags"></input>
+	</div>
+	<div id="tags"></div>
+	<textarea id="inputerest"></textarea>
+	<button id="comfirm">确认兴趣爱好</button>
+	<div id="interests"></div>
+</body>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+	/*要求对函数进行抽象封装。 实现两个需求：Tag 和 兴趣标签。实际上就是函数 可以绑定不同的 输入input, 采用不同函数进行拆分。可视化tag的过程是一致的。*/	
+
+var queuet = [];
+var queuein = [];
+function query(){
+	var spans = document.getElementById("queuebox").children;
+	var qtxt = document.getElementById("qtxt").value;
+	render();
+	for (var i = 0; i < spans.length; i++) {
+		if(spans[i].innerText.indexOf(qtxt)>-1){
+			spans[i].style.backgroundColor = 'red';
+			spans[i].style.color = 'white';
+		}
+	}
+	console.log('121');
+}
+
+/*拆分函数，可输入不同的separator
+	target： 需要拆分value的input
+*/
+function split(target){
+	var nums = document.getElementById(target).value;
+	var eles = []
+	if (nums.indexOf(" ")>-1) {
+		eles = nums.split(" ");
+	}
+	else if (nums.indexOf(",")>-1){
+		eles = nums.split(",");
+	}
+	else if (nums.indexOf("，")>-1){
+		eles = nums.split("，");
+	}
+	else{
+		eles.push(nums);
+	}
+	// 拆分结束，返回数组
+	return eles;
+}
+
+/*需要绑定参数，渲染哪个数组，输出到那个标签之下。
+	queue: array to be render.
+	target: dom element id to append spans
+*/
+function render(queue,target){
+	var quebox = document.getElementById(target);
+	quebox.innerHTML = "";
+	var inhtml = "";
+	for (var i = 0; i < queue.length; i++) {
+		inhtml += "<span id="+ i +"><i class='fa -fa-link'></i>" + queue[i] + "</span>";
+	}
+	quebox.innerHTML = inhtml;
+}
+
+// document.getElementById("left-in").onclick = function(){
+// 	var eles = split();
+// 	for (var i = eles.length-1; i >-1; i--) {
+// 		queue.unshift(eles[i]);
+// 	}
+// 	render();
+// }
+
+function removedup(queue){
+	var set = {};
+	var tmpq = [];
+	for (var i = 0; i < queue.length; i++) {
+		if(set.hasOwnProperty(queue[i]) == false){
+			tmpq.push(queue[i]);
+			set[queue[i]] = 1;
+		}
+	}
+	queue = tmpq;
+	return queue;
+}
+
+document.getElementById("comfirm").onclick = function(){
+	var eles = split("inputerest");
+	// 引用传递没用？？	
+	for (var i = eles.length-1; i >-1; i--) {
+		if (queuein.length > 9){
+			queuein.shift();
+		}
+		queuein.push(eles[i].trim());
+	}
+	queuein = removedup(queuein);
+	render(queuein,"interests");
+}
+</script>
+</html>
