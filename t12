@@ -1,0 +1,140 @@
+<html>
+<meta charset="utf-8">
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+	*{
+/*		margin: 0;*/
+		padding: 0;
+		box-sizing: border-box;
+		line-height: 1.8;
+		margin: 0 auto;
+	}
+
+	/*指向下的三角*/
+	.triangle{
+		border:10px solid;
+		border-color: #333 transparent transparent transparent;
+		width: 0;
+	}
+	.triangle-up{
+		border:10px solid;
+		/* top,right,bottom,left */
+		border-color: transparent transparent #333 transparent;
+		width: 0;
+	}
+
+	table tr{
+		text-align: center;
+	}
+	table tr:nth-child(even){
+		background-color: #ccc;
+	}
+
+	input#intext {
+	    /* margin-left: 50%; */
+	   /* left: 50%;
+	    position: absolute;*/
+	    width: 200px;
+	    /*margin-left: -100px;*/
+	}
+
+	/*#ex:hover div{} 可以表示修改id为ex 包含的div样式，条件是#ex:hover*/
+	#intext:focus {
+		width: 250px;
+		/* border-color: orange; */
+		transition:width 0.5s ease;
+	}
+	#query{
+		/*float: left;*/
+		/*float: right;*/
+	}
+</style>
+<body>
+	<div id="div1">
+		<div class="nav-container">
+			<ul class="group">
+				<li>nihaoya</li>
+				<li>nihaoya</li>
+				<li>nihaoya</li>
+				<li>nihaoya</li>
+				<li>nihaoya</li>
+			</ul>
+		</div>
+		<div class="container">
+			<h2>float特征</h2>
+			<p>具有破坏性：
+				img标签float:left之后，父元素高度就不受img影响了，塌陷为0.。。 img脱离了文档流，这是因为float实现了文字的环绕，因为图片之后的文字内容还是属于父元素，跟随父元素。
+			</p>
+			<div style="border:1px solid blue;padding:3px">
+				<img src="myIDW.jpg" style="float:left;width:200px;height:auto;">
+				<p>这是img后面的内容</p>
+			</div>
+			
+			<p>具有包裹特性:
+				display: inline-block(可控制高度，内联一行)/table-cell/..
+				position: absolute/fixed
+				overflow: hidden/scroll
+			</p>
+		</div>
+		<div class="triangle-up"></div>
+		<table>
+			<tbody>
+				<tr>
+					<th>排名</th>
+					<th>网站</th>
+					<th>热度</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>百度前端技术学院</td>
+					<td>13000</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="border:1px solid blue;"> 
+		<span id="inpspan">姓名</span>:&nbsp;<input id="intext" type="text"> 我是姓名和输入框的父元素，input默认block
+		<input id="query" type="button" value="Query">
+		<input >我是input</input>
+		<div>我是div</div>
+	</div>		
+	<div id="afterq">query之后</div>
+</body>
+</html>
