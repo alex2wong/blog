@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title></title>
+</head>
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+<style type="text/css">
+	#queuebox{
+		margin-top: 20px;
+	}
+	span{
+		/*background-color: #ccc;*/
+		margin:10px;
+		padding:10px;
+		border: 1px solid lightgrey;
+	}
+	span i{
+		/*background-color: #ccc;*/
+		padding:10px;
+	}
+	span:hover{
+		background-color: orange;
+		
+	}
+	.container{
+		margin-top: 50px;
+	}
+</style>
+<body>
+	<textarea id="input-num"></textarea>
+	<input type="button" id="left-in" value="left-in">
+	<input type="button" id="right-in" value="right-in">
+	<input type="button" id="left-out" value="left-out">
+	<input type="button" id="right-out" value="right-out">
+	<input type="text" id="qtxt"></input>
+	<input type="button" id="query" value="query"></input>
+
+	<div id="queuebox"></div>
+	<div class="container">
+		<span style="font-size: 18px"><i class="fa fa-camera"></i> 相机</span>
+		<span ><i class="fa fa-link fa-lg"></i> 连接</span>
+		<span ><i class="fa fa-home fa-lg"></i> 首页</span>
+		<span ><i class="fa fa-cog fa-lg"></i> 设置</span>
+		<span ><i class="fa fa-home fa-lg"></i>&nbsp;首页</span>
+
+		<!-- 采用fa 的ul样式 -->
+		<ul class="fa-ul">
+			<li><i class="fa-li fa fa-check-square"></i>List icons</li>
+			<li><i class="fa-li fa fa-spinner fa-spin"></i> 等待</li>
+			<!-- <li><i class="fa fa-terminal fa-stack-1x fa-inverse"></i></li> -->
+		</ul>
+	</div>
+
+<script type="text/javascript">
+	var queue = [];
+	function query(){
+		var spans = document.getElementById("queuebox").children;
+		var qtxt = document.getElementById("qtxt").value;
+		render();
+		for (var i = 0; i < spans.length; i++) {
+			if(spans[i].innerText.indexOf(qtxt)>-1){
+				spans[i].style.backgroundColor = 'red';
+				spans[i].style.color = 'white';
+			}
+		}
+		console.log('121');
+	}
+
+	function split(){
+		var nums = document.getElementById("input-num").value;
+		var eles = []
+		if (nums.indexOf(" ")>-1) {
+			eles = nums.split(" ");
+		}
+		else if (nums.indexOf(",")>-1){
+			eles = nums.split(",");
+		}
+		else if (nums.indexOf("，")>-1){
+			eles = nums.split("，");
+		}
+		else{
+			eles.push(nums);
+		}
+		// 拆分结束，返回数组
+		return eles;
+	}
+
+	function render(){
+		var quebox = document.getElementById("queuebox");
+		quebox.innerHTML = "";
+		var inhtml = "";
+		for (var i = 0; i < queue.length; i++) {
+			inhtml += "<span id="+ i +"><i class='fa -fa-link'></i>" + queue[i] + "</span>";
+		}
+		quebox.innerHTML = inhtml;
+	}
+
+	document.getElementById("left-in").onclick = function(){
+		var eles = split();
+		for (var i = eles.length-1; i >-1; i--) {
+			queue.unshift(eles[i]);
+		}
+		render();
+	}
+	document.getElementById("right-in").onclick = function(){
+		var eles = split();
+		for (var i = eles.length-1; i >-1; i--) {
+			queue.push(eles[i]);
+		}
+		render();
+	}
+
+	document.getElementById("left-out").onclick = function(){
+		// var eles = split();
+		// for (var i = 0; i < eles.length; i++) {
+		// 	queue.unshift(eles[i]);
+		// }
+		queue.shift();
+		render();
+	}
+
+	document.getElementById("right-out").onclick = function(){
+		// var eles = split();
+		// for (var i = 0; i < eles.length; i++) {
+		// 	queue.unshift(eles[i]);
+		// }
+		queue.pop();
+		render();
+	}
+	document.getElementById("query").onclick=query;
+
+</script>
+</body>
+</html>

@@ -39,8 +39,16 @@
 	    width: 200px;
 	    /*margin-left: -100px;*/
 	}
-	#intext:focus{
-		
+
+	/*#ex:hover div{} 可以表示修改id为ex 包含的div样式，条件是#ex:hover*/
+	#intext:focus {
+		width: 250px;
+		/* border-color: orange; */
+		transition:width 0.5s ease;
+	}
+	#query{
+		/*float: left;*/
+		/*float: right;*/
 	}
 </style>
 <body>
@@ -121,11 +129,12 @@
 			</tbody>
 		</table>
 	</div>
-	<div>
-		<input id="intext" type="text">
-	</div>
-	<div>
-		<input id="insub" type="button" value="Query">
-	</div>
+	<div style="border:1px solid blue;"> 
+		<span id="inpspan">姓名</span>:&nbsp;<input id="intext" type="text"> 我是姓名和输入框的父元素，input默认block
+		<input id="query" type="button" value="Query">
+		<input >我是input</input>
+		<div>我是div</div>
+	</div>		
+	<div id="afterq">query之后</div>
 </body>
 </html>
