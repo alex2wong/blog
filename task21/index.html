@@ -9,10 +9,16 @@
 		margin: 0;
 		padding: 0;
 		line-height: 1.8;
-		font-size: 1.5;
+		font-size: 1.1em;
+		font-family: "Microsoft Yahei"
 	}
 	#tags,#interests{
 		margin-top:20px;
+		font-size: 2em;
+	}
+	
+	#comfirm{
+		border-radius: 3px;
 	}
 
 	span{
@@ -26,8 +32,22 @@
 		padding:10px;
 	}
 	span:hover{
-		background-color: lightblue;
-		
+		margin-left: 0;
+		background-color: #ee6060;
+		color:#fff;
+		transition: background-color, 0.5s;
+		transition: color, 0.5s;
+	}
+	span.todel{
+		background-color: #ee6060;
+		color: #fff;
+	}
+	span:hover:before{
+		content:"删除";
+		background-color: #ee6060;
+		color:#fff;
+		transition: background-color, 0.5s;
+		transition: color, 0.5s;
 	}
 
 </style>
@@ -90,7 +110,7 @@ function render(queue,target){
 	quebox.innerHTML = "";
 	var inhtml = "";
 	for (var i = 0; i < queue.length; i++) {
-		inhtml += "<span id="+ i +"><i class='fa -fa-link'></i>" + queue[i] + "</span>";
+		inhtml += "<span id="+ i +">" + queue[i] + "</span>";
 	}
 	quebox.innerHTML = inhtml;
 }
@@ -128,5 +148,17 @@ document.getElementById("comfirm").onclick = function(){
 	queuein = removedup(queuein);
 	render(queuein,"interests");
 }
+var evttarget = null;
+var intdiv = document.getElementById("interests");
+intdiv.addEventListener('click',function(evt){
+	var delindex;
+	evttarget = evt.target;
+	if (evttarget.tagName == "SPAN")
+	{
+		delindex = parseInt(evttarget.getAttribute('id'));
+		queuein.splice(delindex,delindex+1);
+		render(queuein,"interests");
+	}
+});
 </script>
 </html>
