@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>Binary Tree and Binary Search Tree</title>
+</head>
+<style type="text/css">
+/* box model: content, padding, border, margin; Width = content + padding + border */
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	div{
+		transition: background-color 0.4s ease;
+	}
+	.fbox{
+		display: flex;
+		flex-direction: row;
+		border:1px solid #000;
+		margin:5px;
+		padding: 10px 10px;
+		width:630px;
+		height: 240px;
+		margin-top: 100px;
+		margin-left: 100px;
+	}
+	.son1{
+		display: flex;
+		flex-direction: row;
+		border:1px solid #000;
+		margin:5px;
+		padding: 10px 10px;
+		width: 300px;
+		height: 200px;
+		background-color: #fff;
+	}
+	.son2{
+		display: flex;
+		flex-direction: row;
+		border:1px solid #000;
+		margin:5px;
+		padding: 10px 10px;
+		width: 130px;
+		height: 170px;
+		background-color: #fff;
+	}
+	.son3{
+		display: flex;
+		flex-direction: row;
+		border:1px solid #000;
+		margin:5px;
+		padding: 10px 10px;
+		width: 50px;
+		height: 140px;
+		background-color: #fff;
+	}
+	#Order{
+		font-size: 1.1em;
+		font-family: "MicroSoft Yahei";
+		height: 40px;
+		width: 100px;
+		border: 1px solid #22aaee;
+		background-color: transparent;
+		margin-top: 40px;
+		margin-left: 370px;
+		border-radius: 4px 4px;
+	}
+	#Order:hover{
+		color: #fff;
+		background-color: #22aaee;
+		transition: background-color 0.8s;
+	}
+	h2{
+		margin-top: 20px;
+		margin-left: 350px;
+		font-size: 1.5em;
+		font-family: "MicroSoft Yahei";
+	}
+
+</style>
+<body>
+	<h2>动画片搞起来</h2>
+	<div id="tree" class="fbox">
+		<div class="son1">
+			<div class="son2">
+				<div class="son3"></div>
+				<div class="son3"></div>
+			</div>
+			<div class="son2">
+				<div class="son3"></div>
+				<div class="son3"></div>
+			</div>
+		</div>
+		<div class="son1">
+			<div class="son2">
+				<div class="son3"></div>
+				<div class="son3"></div>
+			</div>
+			<div class="son2">
+				<div class="son3"></div>
+				<div class="son3"></div>
+			</div>
+		</div>
+	</div>
+	<button id="Order">遍历树</button>
+</body>
+
+<script type="text/javascript">
+
+	$ = function(ele){
+		return document.querySelector(ele);
+	}
+
+	var stack = [];
+
+	/* 中序遍历, 递归实现 */
+	function tranverse(node){		
+		if (node){			
+			if (node.firstElementChild !== null){
+				arguments.callee(node.firstElementChild);
+			}
+			stack.push(function(){chgColor(node);});
+			if (node.lastElementChild !== null){
+				arguments.callee(node.lastElementChild);
+			}
+		}
+	}
+
+	$('#Order').onclick = function(){
+		this.disabled = true;
+		console.log('ready2 tranverse Tree');
+		tranverse($('#tree'));
+		var it = setInterval(function(){
+			if (stack.length == 0){
+				clearInterval(it);
+				$('#Order').disabled = false;
+				return;
+			}
+			stack.shift()();
+		},600);
+	}
+	
+	function chgColor(node){
+		node.style.backgroundColor = 'pink';
+		setTimeout(function(){
+			node.style.backgroundColor = 'white';
+		},400);
+	}
+
+	/*节点的结构*/
+	var node = {
+		value:125,
+		left:null,
+		right:null
+	}
+
+/*       8
+		/ \
+	   3   10
+	  /	\    \
+	 1   6    14
+		/ \	  /
+	   4  7  13
+*/
+/* 查找元素非常简单 */
+
+	/*二叉查找树的构造函数，左节点值比root小，右节点比root大*/
+	function BST(){
+		this._root = null;
+	}
+
+	BST.prototype = {
+		constructor: BST,
+		add: add,
+		contains: contains,
+		remove: function(value){
+
+		},
+		traverse:traverse,
+		size: size,
+		toArray: toArray,
+		toString: toString
+
+	};
+
+	/*  */
+	function contains(value){
+		var found = false,
+			current = this._root
+		// 如果没有找到value并且 current还有node，继续查找
+		while(!found && current){
+			if (value < current.value){
+				current = current.left;
+			}else if (value > current.value){
+				current = current.right;
+			}else{
+				found = true;
+			}
+		}
+		return found;
+	}
+
+	function add(value){
+		var node = {
+				value: value,
+				left: null,
+				right: null
+			},
+			// use to traverse the struct
+			current;
+
+		if (this._root === null){
+			this._root = node;
+		} else {
+			current = this._root;
+			while(true){
+				// 二叉树的插入，比较value和当前节点值的大小，如果小于，go left
+				if (value < current.value){
+					if (current.left === null){
+						current.left = node;
+						break;
+					}else{
+						current = current.left;
+					}
+				}else if (value > current.value){
+					if (current.right === null){
+						current.right = node;
+						break;
+					}else{
+						current = current.right;
+					}
+
+				}else{
+					break;
+				}
+
+			}
+		}
+	}
+
+	/* 中序遍历, 递归实现 */
+	function traverse(process){
+		// helper function
+		function inOrder(node){
+			if (node){
+				if (node.left !== null){
+					inOrder(node.left)
+				}
+				// call the process
+				process.call(this, node);
+
+				if (node.right !== null){
+					inOrder(node.right)
+				}
+			}
+		}
+
+		// start with the root
+		inOrder(this._root);
+	}
+
+	function size(){
+		var length = 0;
+		this.traverse(function(node){
+			length++;
+		})
+		return length;
+	}
+	function toArray(){
+		var result = [];
+		this.traverse(function(node){
+			result.push(node.value);
+		});
+		return result;
+	}
+	function toString(){
+		return this.toArray().toString();
+	}
+
+</script>
+</html>
