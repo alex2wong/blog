@@ -61,7 +61,7 @@ function showkeyCode(evt){
 function showTag(evt){
 	// 正则？？如果包含以下符号则 压入队列，如果超过10个就出队一个。渲染。
 	// /s 等效于[/n/r/t/f/x0B] 空白字符。 /d [0-9] /D[^0-9] + 至少一次 ？0或者1次
-	if (/[,，;；/s]+/.test(tagInput.value) || evt.keyCode == 13){
+	if (/[,，;； /s]+/.test(tagInput.value) || evt.keyCode == 13){
 		var data = splitInput(tagInput.value),
 			newTag = data[0];
 		if (tagObj.queue.indexOf(newTag) == -1){
@@ -73,6 +73,7 @@ function showTag(evt){
 		tagObj.render();
 		tagInput.value = "";
 	}
+}
 
 
 var que = {
@@ -81,7 +82,7 @@ var que = {
 }
 
 // 通用的分割函数
-function splitInput(str) {
+function splitInput(str){
 	var inputArray = str.trim().split(/[,，;；/s]/);
 	return inputArray;
 }
