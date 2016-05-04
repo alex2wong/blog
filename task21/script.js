@@ -73,6 +73,11 @@ function showTag(evt){
 		tagObj.render();
 		tagInput.value = "";
 	}
+
+
+var que = {
+	queue:[21,3,34],
+	spliter: spliter
 }
 
 // 通用的分割函数
