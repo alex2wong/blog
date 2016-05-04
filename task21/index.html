@@ -42,6 +42,8 @@
 		background-color: #ee6060;
 		color: #fff;
 	}
+
+	/* 通过sudo element 实现新增文字 */
 	span:hover:before{
 		content:"删除";
 		background-color: #ee6060;
@@ -64,101 +66,105 @@
 <script type="text/javascript">
 	/*要求对函数进行抽象封装。 实现两个需求：Tag 和 兴趣标签。实际上就是函数 可以绑定不同的 输入input, 采用不同函数进行拆分。可视化tag的过程是一致的。*/	
 
-var queuet = [];
-var queuein = [];
-function query(){
-	var spans = document.getElementById("queuebox").children;
-	var qtxt = document.getElementById("qtxt").value;
-	render();
-	for (var i = 0; i < spans.length; i++) {
-		if(spans[i].innerText.indexOf(qtxt)>-1){
-			spans[i].style.backgroundColor = 'red';
-			spans[i].style.color = 'white';
+	var queuet = [];
+	var queuein = [];
+	function query(){
+		var spans = document.getElementById("queuebox").children;
+		var qtxt = document.getElementById("qtxt").value;
+		render();
+		for (var i = 0; i < spans.length; i++) {
+			if(spans[i].innerText.indexOf(qtxt)>-1){
+				spans[i].style.backgroundColor = 'red';
+				spans[i].style.color = 'white';
+			}
 		}
+		console.log('121');
 	}
-	console.log('121');
-}
 
-/*拆分函数，可输入不同的separator
-	target： 需要拆分value的input
-*/
-function split(target){
-	var nums = document.getElementById(target).value;
-	var eles = []
-	if (nums.indexOf(" ")>-1) {
-		eles = nums.split(" ");
-	}
-	else if (nums.indexOf(",")>-1){
-		eles = nums.split(",");
-	}
-	else if (nums.indexOf("，")>-1){
-		eles = nums.split("，");
-	}
-	else{
-		eles.push(nums);
-	}
-	// 拆分结束，返回数组
-	return eles;
-}
-
-/*需要绑定参数，渲染哪个数组，输出到那个标签之下。
-	queue: array to be render.
-	target: dom element id to append spans
-*/
-function render(queue,target){
-	var quebox = document.getElementById(target);
-	quebox.innerHTML = "";
-	var inhtml = "";
-	for (var i = 0; i < queue.length; i++) {
-		inhtml += "<span id="+ i +">" + queue[i] + "</span>";
-	}
-	quebox.innerHTML = inhtml;
-}
-
-// document.getElementById("left-in").onclick = function(){
-// 	var eles = split();
-// 	for (var i = eles.length-1; i >-1; i--) {
-// 		queue.unshift(eles[i]);
-// 	}
-// 	render();
-// }
-
-function removedup(queue){
-	var set = {};
-	var tmpq = [];
-	for (var i = 0; i < queue.length; i++) {
-		if(set.hasOwnProperty(queue[i]) == false){
-			tmpq.push(queue[i]);
-			set[queue[i]] = 1;
+	/*拆分函数，可输入不同的separator
+		target： 需要拆分value的input
+	*/
+	function split(target){
+		var nums = document.getElementById(target).value;
+		var eles = []
+		if (nums.indexOf(" ")>-1) {
+			eles = nums.split(" ");
 		}
-	}
-	queue = tmpq;
-	return queue;
-}
-
-document.getElementById("comfirm").onclick = function(){
-	var eles = split("inputerest");
-	// 引用传递没用？？	
-	for (var i = eles.length-1; i >-1; i--) {
-		if (queuein.length > 9){
-			queuein.shift();
+		else if (nums.indexOf(",")>-1){
+			eles = nums.split(",");
 		}
-		queuein.push(eles[i].trim());
+		else if (nums.indexOf("，")>-1){
+			eles = nums.split("，");
+		}
+		else{
+			eles.push(nums);
+		}
+		// 拆分结束，返回数组
+		return eles;
 	}
-	queuein = removedup(queuein);
-	render(queuein,"interests");
-}
-var evttarget = null;
-var intdiv = document.getElementById("interests");
-intdiv.addEventListener('click',function(evt){
-	var delindex;
-	evttarget = evt.target;
-	if (evttarget.tagName == "SPAN")
-	{
-		delindex = parseInt(evttarget.getAttribute('id'));
-		queuein.splice(delindex,delindex+1);
+
+	/*需要绑定参数，渲染哪个数组，输出到那个标签之下。
+		queue: array to be render.
+		target: dom element id to append spans
+	*/
+	function render(queue,target){
+		var quebox = document.getElementById(target);
+		quebox.innerHTML = "";
+		var inhtml = "";
+		for (var i = 0; i < queue.length; i++) {
+			inhtml += "<span id="+ i +">" + queue[i] + "</span>";
+		}
+		quebox.innerHTML = inhtml;
+	}
+
+	// document.getElementById("left-in").onclick = function(){
+	// 	var eles = split();
+	// 	for (var i = eles.length-1; i >-1; i--) {
+	// 		queue.unshift(eles[i]);
+	// 	}
+	// 	render();
+	// }
+
+	/* 去除重复 */
+	function removedup(queue){
+		var set = {};
+		var tmpq = [];
+		for (var i = 0; i < queue.length; i++) {
+			if(set.hasOwnProperty(queue[i]) == false){
+				tmpq.push(queue[i]);
+				set[queue[i]] = 1;
+			}
+		}
+		queue = tmpq;
+		return queue;
+	}
+
+	document.getElementById("comfirm").onclick = function(){
+		var eles = split("inputerest");
+		// 先添加元素到数组，再去除重复。。这样好像不太符合题意
+		for (var i = eles.length-1; i >-1; i--) {
+			if (queuein.length > 9){
+				queuein.shift();
+			}
+			queuein.push(eles[i].trim());
+		}
+		queuein = removedup(queuein);
 		render(queuein,"interests");
 	}
-});
+
+	// 鼠标点击哪个就删除哪个！委托，给父元素注册事件，操作evt.target || evt.srcElement
+	var evttarget = null;
+	var intdiv = document.getElementById("interests");
+	intdiv.addEventListener('click',function(evt){
+		var delindex;
+		evttarget = evt.target;
+		if (evttarget.tagName == "SPAN")
+		{
+			/*delindex = parseInt(evttarget.getAttribute('id'));*/
+			delindex = queuein.indexOf(evttarget.innerText);
+			queuein.splice(delindex,delindex+1);
+			render(queuein,"interests");
+		}
+	});
 </script>
 </html>

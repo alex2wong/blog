@@ -50,6 +50,20 @@
 		/*float: left;*/
 		/*float: right;*/
 	}
+
+	/* 清除浮动的方法，给浮动元素的父元素设定:after,使得之后的元素可以恢复文档流
+	  */
+/* 	.fix:after{
+		display: block;
+		content: "";
+		clear: both;
+		height: 0;
+		background-color: grey;
+		overflow: hidden;
+	} */
+	.fix{
+		overflow: hidden;
+	}
 </style>
 <body>
 	<div id="div1">
@@ -67,7 +81,8 @@
 			<p>具有破坏性：
 				img标签float:left之后，父元素高度就不受img影响了，塌陷为0.。。 img脱离了文档流，这是因为float实现了文字的环绕，因为图片之后的文字内容还是属于父元素，跟随父元素。
 			</p>
-			<div style="border:1px solid blue;padding:3px">
+			<div class="fix" style="border:1px solid blue;padding:3px">
+				<img src="myIDW.jpg" style="float:left;width:200px;height:auto;">
 				<img src="myIDW.jpg" style="float:left;width:200px;height:auto;">
 				<p>这是img后面的内容</p>
 			</div>
@@ -76,7 +91,10 @@
 				display: inline-block(可控制高度，内联一行)/table-cell/..
 				position: absolute/fixed
 				overflow: hidden/scroll
+				.如何清除浮动，使得float后面的html元素回归正常的文档流？？
+
 			</p>
+			<button id='testfloat'>按钮</button>
 		</div>
 		<div class="triangle-up"></div>
 		<table>

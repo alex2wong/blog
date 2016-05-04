@@ -81,8 +81,8 @@ function showTag() {
 			}
 		}
 		tagObj.render();
-		tagInput.value = "";	
-	}	
+		tagInput.value = "";
+	}
 }
 
 function showHobby() {
