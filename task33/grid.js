@@ -125,6 +125,8 @@ function renderRob(td, rob){
 
 	log.value += 'preloc: '+rob.preloc.toString() +', '+'loc: '+rob.loc +', '+ 'angle: '+rob.rotation+'\n';
 	log.scrollTop =  log.scrollHeight;
+
+	$('audio').src = 'a1.wav';
 }
 
 (function(){
@@ -169,6 +171,10 @@ $('tbody').onclick = function(evt){
 	}
 }
 
+$('button').onclick = function(evt){
+	$('audio').src = 'a2.wav';
+}
+
 utils.events.addEvent($('#cmd'), 'keyup',function(evt){
 	/*console.log(evt.keyCode);*/
 	if (!rob){
@@ -185,7 +191,7 @@ utils.events.addEvent($('#cmd'), 'keyup',function(evt){
 	}
 });
 
-if (document.readyState == 'complete'){
+if (document.RadyState == 'complete'){
 	console.log('after grid.js loaded, document ready');
 } else { 
 	console.log('after grid.js loaded, document not ready');
