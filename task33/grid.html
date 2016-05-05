@@ -47,15 +47,16 @@
 		background-color: pink;
 	}
 
-	/* 机器人所在格子的样式 */
+	/* 机器人所在td 包含的div 样式 */
 	.active{
 		/* 		height: 100%;
 		width: 100%; */
 		height: 60px;
+		width: 60px;
 		box-sizing: border-box;
-		background: #00aaaa;
-		border-top: 10px solid #bb66bb;
-		transition: background 0.6s ease;
+		background: #55cccc;
+		border-top: 10px solid #cc88cc;
+		transition: transform 0.6s ease;
 	}
 
 	#console{
@@ -67,6 +68,7 @@
 		border:2px solid #aaa;
 		border-radius: 5px;
 		color:#aaa;
+		width: 300px;
 		height: 50px;
 		margin-top: 20px;
 	}
@@ -75,8 +77,8 @@
 		border:2px solid #aaa;
 		border-radius: 5px;
 		color:#aaa;
-		height: 50px;
 		width: 100px;
+		height: 50px;
 		margin-top: 20px;
 		background-color: #fff;
 		cursor: pointer;
@@ -88,6 +90,12 @@
 		transition: background-color 0.4s ease;
 	}
 	
+	#log{
+		display: block;
+		margin-top: 20px;
+		width: 420px;
+		height:120px;
+	}
 </style>
 <body>
 <table>
@@ -219,7 +227,9 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td class="active"></td>
+			<td>
+				<div class="active"></div>
+			</td>
 			<td></td>
 		</tr>
 		<tr class="rows">
@@ -240,6 +250,8 @@
 <div id="console">
 	<input type="text" id='cmd'></input>
 	<button id="search">Execute</button>
+	<textarea id="log">
+	</textarea>
 </div>
 </body>
 <script type="text/javascript" src="util.js"></script>
