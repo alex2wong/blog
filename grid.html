@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>Grid for Chess</title>
+</head>
+<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+		/* box-sizing: border-box; */
+		font-family: 'Microsoft Yahei';
+		font-size:22px;
+	}
+	table{
+		/*绝对宽度*/
+		table-layout: fixed;
+		/* width: 560px; */
+		border-collapse: collapse; 
+	}
+
+	/* 表格坐标轴的设定 */
+	/* 第一行为x轴 */
+	.head td{
+		text-align: center;
+		border:0;
+	}
+	/* 第一列为y轴, 每一行的所有td中的第一个 */
+	tr td:first-child{
+		text-align: center;
+		border:0;
+		background-color: transparent;
+	}
+
+	.head td:hover{
+		background-color: transparent;
+	}
+
+	td{
+		margin: 0;
+		width: 60px;
+		height: 60px;
+		border: 1px solid #000;
+		background-color: transparent;
+	}
+	td:hover{
+		background-color: pink;
+	}
+
+	/* 机器人所在td 包含的div 样式 */
+	.active{
+		/* 		height: 100%;
+		width: 100%; */
+		height: 60px;
+		width: 60px;
+		box-sizing: border-box;
+		background: #55cccc;
+		border-top: 10px solid #cc88cc;
+		transition: transform 0.6s ease;
+	}
+
+	#console{
+		margin-left: 60px;
+	}
+
+	input[type="text"]{
+		box-sizing: border-box;
+		border:2px solid #aaa;
+		border-radius: 5px;
+		color:#aaa;
+		width: 300px;
+		height: 50px;
+		margin-top: 20px;
+	}
+
+	button{
+		border:2px solid #aaa;
+		border-radius: 5px;
+		color:#aaa;
+		width: 100px;
+		height: 50px;
+		margin-top: 20px;
+		background-color: #fff;
+		cursor: pointer;
+	}
+
+	button:hover{		
+		color:#fff;
+		background-color: #11bbbb;
+		transition: background-color 0.4s ease;
+	}
+	
+	#log{
+		display: block;
+		margin-top: 20px;
+		width: 420px;
+		height:120px;
+	}
+</style>
+<body>
+<table>
+	<tbody>
+		<tr class='head'>
+			<td></td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+			<td>10</td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<div class="active"></div>
+			</td>
+			<td></td>
+		</tr>
+		<tr class="rows">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+<div id="console">
+	<input type="text" id='cmd'></input>
+	<button id="search">Execute</button>
+	<textarea id="log">
+	</textarea>
+</div>
+<audio src="a1.wav" autoplay="autoplay"></audio>
+</body>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="grid.js"></script>
+</html>
